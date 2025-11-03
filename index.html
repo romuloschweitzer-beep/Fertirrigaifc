@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FertirrigaIFC - Dashboard de Controle</title>
+    <style>
+        :root {
+            --color-white: rgba(255, 255, 255, 1);
+            --color-black: rgba(0, 0, 0, 1);
+            --color-cream-50: rgba(252, 252, 249, 1);
+            --color-cream-100: rgba(255, 255, 253, 1);
+            --color-gray-200: rgba(245, 245, 245, 1);
+            --color-gray-300: rgba(167, 169, 169, 1);
+            --color-gray-400: rgba(119, 124, 124, 1);
+            --color-slate-500: rgba(98, 108, 113, 1);
+            --color-brown-600: rgba(94, 82, 64, 1);
+            --color-charcoal-700: rgba(31, 33, 33, 1);
+            --color-charcoal-800: rgba(38, 40, 40, 1);
+            --color-slate-900: rgba(19, 52, 59, 1);
+            --color-teal-300: rgba(50, 184, 198, 1);
+            --color-teal-400: rgba(45, 166, 178, 1);
+            --color-teal-500: rgba(33, 128, 141, 1);
+            --color-teal-600: rgba(29, 116, 128, 1);
+            --color-teal-700: rgba(26, 104, 115, 1);
+            --color-red-400: rgba(255, 84, 89, 1);
+            --color-red-500: rgba(192, 21, 47, 1);
+            --color-orange-400: rgba(230, 129, 97, 1);
+            --color-orange-500: rgba(168, 75, 47, 1);
+            
+            --color-brown-600-rgb: 94, 82, 64;
+            --color-teal-500-rgb: 33, 128, 141;
+            --color-slate-900-rgb: 19, 52, 59;
+            --color-slate-500-rgb: 98, 108, 113;
+            --color-red-500-rgb: 192, 21, 47;
+            --color-red-400-rgb: 255, 84, 89;
+
+            --color-primary: #2d7a3e;
+            --color-primary-light: #4a9d5a;
+            --color-accent: #c84343;
+            --color-bg: var(--color-cream-50);
+            --color-surface: var(--color-cream-100);
+            --color-text: var(--color-slate-900);
+            --color-text-secondary: var(--color-slate-500);
+            --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+            --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+            
+            --color-success: var(--color-teal-500);
+            --color-error: var(--color-red-500);
+            --color-warning: var(--color-orange-500);
+            --color-success-rgb: 33, 128, 141;
+            --color-error-rgb: 192, 21, 47;
+            --color-warning-rgb: 168, 75, 47;
+
+            --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-size-sm: 12px;
+            --font-size-base: 14px;
+            --font-size-lg: 16px;
+            --font-size-xl: 18px;
+            --font-size-2xl: 20px;
+            --font-size-3xl: 24px;
+            --font-size-4xl: 30px;
+            --font-weight-normal: 400;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 550;
+            --font-weight-bold: 600;
+            
+            --space-4: 4px;
+            --space-8: 8px;
+            --space-12: 12px;
+            --space-16: 16px;
+            --space-20: 20px;
+            --space-24: 24px;
+            --space-32: 32px;
+            
+            --radius-sm: 6px;
+            --radius-base: 8px;
+            --radius-md: 10px;
+            --radius-lg: 12px;
+            
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --color-gray-400-rgb: 119, 124, 124;
+                --color-teal-300-rgb: 50, 184, 198;
+                --color-gray-300-rgb: 167, 169, 169;
+                --color-gray-200-rgb: 245, 245, 245;
+
+                --color-bg: var(--color-charcoal-700);
+                --color-surface: var(--color-charcoal-800);
+                --color-text: var(--color-gray-200);
+                --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+                --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+                --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+                
+                --color-success: var(--color-teal-300);
+                --color-error: var(--color-red-400);
+                --color-warning: var(--color-orange-400);
+                --color-success-rgb: 50, 184, 198;
+                --color-error-rgb: 255, 84, 89;
+                --color-warning-rgb: 230, 129, 97;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family-base);
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.5;
+        }
+
+        .header {
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-card-border);
+            padding: var(--space-16) var(--space-24);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-16);
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: var(--space-12);
+        }
+
+        .header-title h1 {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: var(--space-8);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-24);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-20);
+            margin-bottom: var(--space-24);
+        }
+
+        .card {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-card-border);
+            box-shadow: var(--shadow-sm);
+            padding: var(--space-20);
+            transition: box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-16);
+        }
+
+        .card-title {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .card-value {
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text);
+            margin-bottom: var(--space-8);
+        }
+
+        .card-unit {
+            font-size: var(--font-size-lg);
+            color: var(--color-text-secondary);
+            margin-left: var(--space-4);
+        }
+
+        .card-status {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-4);
+            padding: var(--space-4) var(--space-12);
+            border-radius: var(--radius-base);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .status-optimal {
+            background: rgba(var(--color-success-rgb), 0.15);
+            color: var(--color-success);
+            border: 1px solid rgba(var(--color-success-rgb), 0.25);
+        }
+
+        .status-warning {
+            background: rgba(var(--color-warning-rgb), 0.15);
+            color: var(--color-warning);
+            border: 1px solid rgba(var(--color-warning-rgb), 0.25);
+        }
+
+        .status-alert {
+            background: rgba(var(--color-error-rgb), 0.15);
+            color: var(--color-error);
+            border: 1px solid rgba(var(--color-error-rgb), 0.25);
+        }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .icon-humidity {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .icon-temperature {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+
+        .icon-ph {
+            background: rgba(147, 51, 234, 0.1);
+            color: #9333ea;
+        }
+
+        .icon-ec {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+
+        .control-panel {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-card-border);
+            box-shadow: var(--shadow-sm);
+            padding: var(--space-24);
+            margin-bottom: var(--space-24);
+        }
+
+        .control-panel h2 {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text);
+            margin-bottom: var(--space-20);
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-20);
+        }
+
+        .control-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-16);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            background: var(--color-bg);
+        }
+
+        .control-info {
+            flex: 1;
+        }
+
+        .control-label {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text);
+            margin-bottom: var(--space-4);
+        }
+
+        .control-description {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 32px;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--color-border);
+            transition: 0.3s;
+            border-radius: 32px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 24px;
+            width: 24px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--color-primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(28px);
+        }
+
+        .chart-container {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-card-border);
+            box-shadow: var(--shadow-sm);
+            padding: var(--space-24);
+            margin-bottom: var(--space-24);
+        }
+
+        .chart-container h2 {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text);
+            margin-bottom: var(--space-20);
+        }
+
+        .chart {
+            height: 300px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: var(--space-8);
+            padding: var(--space-20) 0;
+            border-bottom: 2px solid var(--color-border);
+            position: relative;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(180deg, var(--color-primary-light), var(--color-primary));
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-width: 30px;
+        }
+
+        .chart-bar:hover {
+            opacity: 0.8;
+        }
+
+        .chart-bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            white-space: nowrap;
+        }
+
+        .chart-bar-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text);
+            white-space: nowrap;
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: var(--space-24);
+            margin-top: var(--space-32);
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-8);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: var(--radius-sm);
+        }
+
+        .footer {
+            text-align: center;
+            padding: var(--space-32);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        .footer-team {
+            margin-top: var(--space-16);
+            font-size: var(--font-size-sm);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-8) var(--space-16);
+            border-radius: var(--radius-base);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            gap: var(--space-8);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-light);
+        }
+
+        .alert-banner {
+            background: rgba(var(--color-warning-rgb), 0.1);
+            border: 1px solid rgba(var(--color-warning-rgb), 0.3);
+            border-radius: var(--radius-base);
+            padding: var(--space-16);
+            margin-bottom: var(--space-20);
+            display: none;
+        }
+
+        .alert-banner.show {
+            display: block;
+        }
+
+        .alert-content {
+            display: flex;
+            align-items: center;
+            gap: var(--space-12);
+            color: var(--color-warning);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .controls-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="header-title">
+                <h1>🌱 FertirrigaIFC</h1>
+            </div>
+            <div class="status-indicator">
+                <span class="status-dot" id="connectionDot"></span>
+                <span id="connectionStatus">Desconectado</span> • Última atualização: <span id="lastUpdate">--:--</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="alert-banner" id="alertBanner">
+            <div class="alert-content">
+                <span style="font-size: 20px;">⚠️</span>
+                <div>
+                    <strong>Atenção:</strong> <span id="alertMessage"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Temperatura</div>
+                        <div class="card-value" id="temperature">--<span class="card-unit">°C</span></div>
+                    </div>
+                    <div class="icon icon-temperature">🌡️</div>
+                </div>
+                <div class="card-status status-optimal" id="temperatureStatus">Normal</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Umidade do Ar</div>
+                        <div class="card-value" id="humidity">--<span class="card-unit">%</span></div>
+                    </div>
+                    <div class="icon icon-humidity">💧</div>
+                </div>
+                <div class="card-status status-optimal" id="humidityStatus">Normal</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Pressão Atmosférica</div>
+                        <div class="card-value" id="pressure">--<span class="card-unit">hPa</span></div>
+                    </div>
+                    <div class="icon icon-ph">🌤️</div>
+                </div>
+                <div class="card-status status-optimal" id="pressureStatus">Normal</div>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <h2>🔌 Conexão ESP32</h2>
+            <div class="controls-grid">
+                <div class="control-item">
+                    <div class="control-info">
+                        <div class="control-label">IP do ESP32</div>
+                        <input type="text" id="esp32IP" placeholder="192.168.x.x" value="192.168.1.100" style="padding: 8px; border: 1px solid var(--color-border); border-radius: var(--radius-base); font-size: var(--font-size-base); width: 100%; margin-top: 8px; background: var(--color-surface); color: var(--color-text);">
+                    </div>
+                    <button class="btn btn-primary" onclick="connectWebSocket()">Conectar</button>
+                </div>
+
+                <div class="control-item">
+                    <div class="control-info">
+                        <div class="control-label">LED ESP32</div>
+                        <div class="control-description">Controle do LED interno</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="esp32LED" onchange="toggleESP32LED()" disabled>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="control-item">
+                    <div class="control-info">
+                        <div class="control-label">Heartbeat ESP32</div>
+                        <div class="control-description" id="heartbeatStatus">Aguardando...</div>
+                    </div>
+                    <div class="icon" id="heartbeatIcon" style="background: rgba(var(--color-gray-400-rgb, 119, 124, 124), 0.1); color: var(--color-gray-400);">💓</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <h2>📊 Status dos Sistemas</h2>
+            <div class="controls-grid">
+                <div class="control-item">
+                    <div class="control-info">
+                        <div class="control-label">Agendado</div>
+                        <div class="control-description">Ativação programada</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="scheduled" onchange="toggleStatus('scheduled')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="control-item">
+                    <div class="control-info">
+                        <div class="control-label">Acionamento Remoto</div>
+                        <div class="control-description">Controle via web/app</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="remote" onchange="toggleStatus('remote')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="control-item">
+                    <div class="control-info">
+                        <div class="control-label">Acionamento Manual</div>
+                        <div class="control-description">Controle local direto</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="manual" onchange="toggleStatus('manual')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <h2>🎛️ Comandos de Fertirrigação</h2>
+            <div class="controls-grid">
+                <div class="control-item">
+                    <div class="control-info">
+                        <div class="control-label">Irrigação</div>
+                        <div class="control-description">Sistema de água pura</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="irrigation" onchange="toggleCommand('irrigation')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="control-item">
+                    <div class="control-info">
+                        <div class="control-label">Fertirrigação 1</div>
+                        <div class="control-description">Tanque de nutrientes 1</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="fertigation1" onchange="toggleCommand('fertigation1')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="control-item">
+                    <div class="control-info">
+                        <div class="control-label">Fertirrigação 2</div>
+                        <div class="control-description">Tanque de nutrientes 2</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="fertigation2" onchange="toggleCommand('fertigation2')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h2>📊 Histórico de Temperatura (Últimas 24h)</h2>
+            <div class="chart" id="moistureChart"></div>
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(180deg, var(--color-primary-light), var(--color-primary));"></div>
+                    <span>Temperatura (°C)</span>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div><strong>FertirrigaIFC</strong> - Sistema de Monitoramento e Controle de Fertirrigação</div>
+            <div class="footer-team">
+                Instituto Federal Catarinense • Bacharelado em Engenharia Mecatrônica<br>
+                Prof. Rômulo Schweitzer • Prof. Eduardo Bidese Puhl • Prof. Rodrigo Curvelo • Prof. André da Costa • Renan dos Santos Rodrigues
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // ===== WEBSOCKET ESP32 =====
+        let ws = null;
+        let wsConnected = false;
+        let heartbeatCount = 0;
+
+        function connectWebSocket() {
+            const ipInput = document.getElementById('esp32IP');
+            const ip = ipInput.value.trim();
+            
+            if (!ip) {
+                alert('Por favor, insira o IP do ESP32');
+                return;
+            }
+
+            const wsUrl = `ws://${ip}/ws`;
+            console.log('Conectando ao WebSocket:', wsUrl);
+            
+            try {
+                ws = new WebSocket(wsUrl);
+                
+                ws.onopen = function() {
+                    console.log('WebSocket conectado!');
+                    wsConnected = true;
+                    updateConnectionStatus(true);
+                    document.getElementById('esp32LED').disabled = false;
+                };
+                
+                ws.onmessage = function(event) {
+                    console.log('Mensagem recebida:', event.data);
+                    
+                    try {
+                        const data = JSON.parse(event.data);
+                        
+                        // Heartbeat do ESP32
+                        if (data.heartbeat) {
+                            heartbeatCount++;
+                            const heartbeatIcon = document.getElementById('heartbeatIcon');
+                            const heartbeatStatus = document.getElementById('heartbeatStatus');
+                            
+                            if (data.heartbeat === 'on') {
+                                heartbeatIcon.style.background = 'rgba(34, 197, 94, 0.15)';
+                                heartbeatIcon.style.color = '#22c55e';
+                                heartbeatStatus.textContent = `Ativo (${heartbeatCount})`;
+                            } else {
+                                heartbeatIcon.style.background = 'rgba(var(--color-gray-400-rgb, 119, 124, 124), 0.1)';
+                                heartbeatIcon.style.color = 'var(--color-gray-400)';
+                                heartbeatStatus.textContent = `Recebido (${heartbeatCount})`;
+                            }
+                        }
+                        
+                        // Status do LED
+                        if (data.led) {
+                            const ledCheckbox = document.getElementById('esp32LED');
+                            ledCheckbox.checked = (data.led === 'on');
+                        }
+                    } catch (e) {
+                        console.error('Erro ao processar mensagem:', e);
+                    }
+                };
+                
+                ws.onerror = function(error) {
+                    console.error('Erro WebSocket:', error);
+                    updateConnectionStatus(false);
+                };
+                
+                ws.onclose = function() {
+                    console.log('WebSocket desconectado');
+                    wsConnected = false;
+                    updateConnectionStatus(false);
+                    document.getElementById('esp32LED').disabled = true;
+                    document.getElementById('esp32LED').checked = false;
+                };
+                
+            } catch (error) {
+                console.error('Erro ao conectar:', error);
+                alert('Erro ao conectar. Verifique o IP do ESP32.');
+            }
+        }
+
+        function updateConnectionStatus(connected) {
+            const statusDot = document.getElementById('connectionDot');
+            const statusText = document.getElementById('connectionStatus');
+            
+            if (connected) {
+                statusDot.style.background = 'var(--color-success)';
+                statusText.textContent = 'ESP32 Conectado';
+                statusText.style.color = 'var(--color-success)';
+            } else {
+                statusDot.style.background = 'var(--color-error)';
+                statusText.textContent = 'ESP32 Desconectado';
+                statusText.style.color = 'var(--color-error)';
+            }
+        }
+
+        function toggleESP32LED() {
+            if (!wsConnected || !ws) {
+                alert('ESP32 não conectado. Clique em "Conectar" primeiro.');
+                document.getElementById('esp32LED').checked = false;
+                return;
+            }
+            
+            const ledState = document.getElementById('esp32LED').checked;
+            const command = ledState ? 'LED_ON' : 'LED_OFF';
+            
+            console.log('Enviando comando:', command);
+            ws.send(command);
+        }
+
+        // Simulação de dados dos sensores
+        let sensorData = {
+            temperature: 24.5,
+            humidity: 65,
+            pressure: 1013.25
+        };
+
+        let systemStatus = {
+            scheduled: false,
+            remote: true,
+            manual: false
+        };
+
+        let commandStatus = {
+            irrigation: false,
+            fertigation1: false,
+            fertigation2: false
+        };
+
+        // Histórico de temperatura (últimas 24 horas)
+        let moistureHistory = [22, 21, 20, 19, 18, 19, 20, 22, 24, 26, 28, 29, 30, 31, 30, 29, 28, 27, 26, 25, 24, 23, 23, 24];
+        let timeLabels = ['00h', '01h', '02h', '03h', '04h', '05h', '06h', '07h', '08h', '09h', '10h', '11h', '12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h', '20h', '21h', '22h', '23h'];
+
+        function updateSensorDisplay() {
+            // Atualizar valores
+            document.getElementById('temperature').innerHTML = sensorData.temperature.toFixed(1) + '<span class="card-unit">°C</span>';
+            document.getElementById('humidity').innerHTML = sensorData.humidity.toFixed(1) + '<span class="card-unit">%</span>';
+            document.getElementById('pressure').innerHTML = sensorData.pressure.toFixed(2) + '<span class="card-unit">hPa</span>';
+
+            // Atualizar status de temperatura
+            const tempStatus = document.getElementById('temperatureStatus');
+            if (sensorData.temperature < 15 || sensorData.temperature > 35) {
+                tempStatus.className = 'card-status status-warning';
+                tempStatus.textContent = '⚠️ Atenção';
+            } else {
+                tempStatus.className = 'card-status status-optimal';
+                tempStatus.textContent = '✓ Normal';
+            }
+
+            // Atualizar status de umidade
+            const humidityStatus = document.getElementById('humidityStatus');
+            if (sensorData.humidity < 30) {
+                humidityStatus.className = 'card-status status-alert';
+                humidityStatus.textContent = '⚠️ Baixa';
+                showAlert('Umidade do ar muito baixa. Verificar condições climáticas.');
+            } else if (sensorData.humidity > 90) {
+                humidityStatus.className = 'card-status status-warning';
+                humidityStatus.textContent = '⚠️ Alta';
+                showAlert('Umidade do ar muito alta. Risco de doenças fúngicas.');
+            } else {
+                humidityStatus.className = 'card-status status-optimal';
+                humidityStatus.textContent = '✓ Normal';
+                hideAlert();
+            }
+
+            // Atualizar status de pressão
+            const pressureStatus = document.getElementById('pressureStatus');
+            if (sensorData.pressure < 1000 || sensorData.pressure > 1030) {
+                pressureStatus.className = 'card-status status-warning';
+                pressureStatus.textContent = '⚠️ Anormal';
+            } else {
+                pressureStatus.className = 'card-status status-optimal';
+                pressureStatus.textContent = '✓ Normal';
+            }
+
+            // Atualizar timestamp
+            const now = new Date();
+            document.getElementById('lastUpdate').textContent = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function simulateSensorData() {
+            // Simular variação nos sensores (dados em tempo real)
+            sensorData.temperature += (Math.random() - 0.5) * 1.5;
+            sensorData.temperature = Math.max(15, Math.min(40, sensorData.temperature));
+            
+            sensorData.humidity += (Math.random() - 0.5) * 3;
+            sensorData.humidity = Math.max(20, Math.min(95, sensorData.humidity));
+            
+            sensorData.pressure += (Math.random() - 0.5) * 2;
+            sensorData.pressure = Math.max(990, Math.min(1040, sensorData.pressure));
+
+            updateSensorDisplay();
+        }
+
+        function toggleStatus(type) {
+            const checkbox = document.getElementById(type);
+            systemStatus[type] = checkbox.checked;
+
+            // Lógica de exclusão mútua: apenas um modo de acionamento pode estar ativo
+            if (checkbox.checked) {
+                Object.keys(systemStatus).forEach(key => {
+                    if (key !== type) {
+                        systemStatus[key] = false;
+                        document.getElementById(key).checked = false;
+                    }
+                });
+            }
+
+            console.log(`Status ${type}: ${checkbox.checked ? 'ativado' : 'desativado'}`);
+        }
+
+        function toggleCommand(type) {
+            const checkbox = document.getElementById(type);
+            commandStatus[type] = checkbox.checked;
+
+            console.log(`Comando ${type}: ${checkbox.checked ? 'ativado' : 'desativado'}`);
+            
+            // Em produção, aqui você faria a chamada para a API do sistema real
+            // exemplo: sendCommandToSystem(type, checkbox.checked);
+        }
+
+        function showAlert(message) {
+            const banner = document.getElementById('alertBanner');
+            const messageEl = document.getElementById('alertMessage');
+            messageEl.textContent = message;
+            banner.classList.add('show');
+        }
+
+        function hideAlert() {
+            const banner = document.getElementById('alertBanner');
+            banner.classList.remove('show');
+        }
+
+        function renderChart() {
+            const chartContainer = document.getElementById('moistureChart');
+            chartContainer.innerHTML = '';
+
+            const maxValue = Math.max(...moistureHistory);
+            
+            moistureHistory.forEach((value, index) => {
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                const height = (value / maxValue) * 100;
+                bar.style.height = height + '%';
+                
+                const label = document.createElement('div');
+                label.className = 'chart-bar-label';
+                label.textContent = timeLabels[index];
+                
+                const valueLabel = document.createElement('div');
+                valueLabel.className = 'chart-bar-value';
+                valueLabel.textContent = value + '%';
+                
+                bar.appendChild(label);
+                bar.appendChild(valueLabel);
+                chartContainer.appendChild(bar);
+            });
+        }
+
+        function updateHistoryChart() {
+            // Adicionar novo valor ao histórico de temperatura
+            moistureHistory.shift();
+            moistureHistory.push(Math.round(sensorData.temperature));
+            renderChart();
+        }
+
+        // Inicializar
+        updateSensorDisplay();
+        renderChart();
+
+        // Atualizar sensores a cada 3 segundos
+        setInterval(simulateSensorData, 3000);
+
+        // Atualizar gráfico a cada 1 hora (simulado: 10 segundos)
+        setInterval(updateHistoryChart, 10000);
+    </script>
+</body>
+</html>
