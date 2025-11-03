@@ -560,17 +560,6 @@
             <div class="card">
                 <div class="card-header">
                     <div>
-                        <div class="card-title">Umidade do Solo</div>
-                        <div class="card-value" id="humidity">--<span class="card-unit">%</span></div>
-                    </div>
-                    <div class="icon icon-humidity">💧</div>
-                </div>
-                <div class="card-status status-optimal" id="humidityStatus">Optimal</div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div>
                         <div class="card-title">Temperatura</div>
                         <div class="card-value" id="temperature">--<span class="card-unit">°C</span></div>
                     </div>
@@ -582,69 +571,96 @@
             <div class="card">
                 <div class="card-header">
                     <div>
-                        <div class="card-title">pH do Solo</div>
-                        <div class="card-value" id="ph">--</div>
+                        <div class="card-title">Umidade do Ar</div>
+                        <div class="card-value" id="humidity">--<span class="card-unit">%</span></div>
                     </div>
-                    <div class="icon icon-ph">⚗️</div>
+                    <div class="icon icon-humidity">💧</div>
                 </div>
-                <div class="card-status status-optimal" id="phStatus">Balanceado</div>
+                <div class="card-status status-optimal" id="humidityStatus">Normal</div>
             </div>
 
             <div class="card">
                 <div class="card-header">
                     <div>
-                        <div class="card-title">Condutividade (EC)</div>
-                        <div class="card-value" id="ec">--<span class="card-unit">mS/cm</span></div>
+                        <div class="card-title">Pressão Atmosférica</div>
+                        <div class="card-value" id="pressure">--<span class="card-unit">hPa</span></div>
                     </div>
-                    <div class="icon icon-ec">⚡</div>
+                    <div class="icon icon-ph">🌤️</div>
                 </div>
-                <div class="card-status status-optimal" id="ecStatus">Adequado</div>
+                <div class="card-status status-optimal" id="pressureStatus">Normal</div>
             </div>
         </div>
 
         <div class="control-panel">
-            <h2>🎛️ Controle de Fertirrigação</h2>
+            <h2>📊 Status dos Sistemas</h2>
             <div class="controls-grid">
                 <div class="control-item">
                     <div class="control-info">
-                        <div class="control-label">Bomba de Água</div>
-                        <div class="control-description">Irrigação principal</div>
+                        <div class="control-label">Agendado</div>
+                        <div class="control-description">Ativação programada</div>
                     </div>
                     <label class="toggle-switch">
-                        <input type="checkbox" id="waterPump" onchange="toggleControl('water')">
+                        <input type="checkbox" id="scheduled" onchange="toggleStatus('scheduled')">
                         <span class="slider"></span>
                     </label>
                 </div>
 
                 <div class="control-item">
                     <div class="control-info">
-                        <div class="control-label">Bomba de Fertilizante</div>
-                        <div class="control-description">Injeção de nutrientes</div>
+                        <div class="control-label">Acionamento Remoto</div>
+                        <div class="control-description">Controle via web/app</div>
                     </div>
                     <label class="toggle-switch">
-                        <input type="checkbox" id="fertilizerPump" onchange="toggleControl('fertilizer')">
+                        <input type="checkbox" id="remote" onchange="toggleStatus('remote')">
                         <span class="slider"></span>
                     </label>
                 </div>
 
                 <div class="control-item">
                     <div class="control-info">
-                        <div class="control-label">Modo Automático</div>
-                        <div class="control-description">Controle baseado em sensores</div>
+                        <div class="control-label">Acionamento Manual</div>
+                        <div class="control-description">Controle local direto</div>
                     </div>
                     <label class="toggle-switch">
-                        <input type="checkbox" id="autoMode" checked onchange="toggleControl('auto')">
+                        <input type="checkbox" id="manual" onchange="toggleStatus('manual')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <h2>🎛️ Comandos de Fertirrigação</h2>
+            <div class="controls-grid">
+                <div class="control-item">
+                    <div class="control-info">
+                        <div class="control-label">Irrigação</div>
+                        <div class="control-description">Sistema de água pura</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="irrigation" onchange="toggleCommand('irrigation')">
                         <span class="slider"></span>
                     </label>
                 </div>
 
                 <div class="control-item">
                     <div class="control-info">
-                        <div class="control-label">Sistema de Drenagem</div>
-                        <div class="control-description">Excesso de água</div>
+                        <div class="control-label">Fertirrigação 1</div>
+                        <div class="control-description">Tanque de nutrientes 1</div>
                     </div>
                     <label class="toggle-switch">
-                        <input type="checkbox" id="drainage" onchange="toggleControl('drainage')">
+                        <input type="checkbox" id="fertigation1" onchange="toggleCommand('fertigation1')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="control-item">
+                    <div class="control-info">
+                        <div class="control-label">Fertirrigação 2</div>
+                        <div class="control-description">Tanque de nutrientes 2</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="fertigation2" onchange="toggleCommand('fertigation2')">
                         <span class="slider"></span>
                     </label>
                 </div>
@@ -652,12 +668,12 @@
         </div>
 
         <div class="chart-container">
-            <h2>📊 Histórico de Umidade (Últimas 24h)</h2>
+            <h2>📊 Histórico de Temperatura (Últimas 24h)</h2>
             <div class="chart" id="moistureChart"></div>
             <div class="chart-legend">
                 <div class="legend-item">
                     <div class="legend-color" style="background: linear-gradient(180deg, var(--color-primary-light), var(--color-primary));"></div>
-                    <span>Umidade do Solo (%)</span>
+                    <span>Temperatura (°C)</span>
                 </div>
             </div>
         </div>
@@ -674,49 +690,36 @@
     <script>
         // Simulação de dados dos sensores
         let sensorData = {
+            temperature: 24.5,
             humidity: 65,
-            temperature: 24,
-            ph: 6.5,
-            ec: 1.2
+            pressure: 1013.25
         };
 
         let systemStatus = {
-            waterPump: false,
-            fertilizerPump: false,
-            autoMode: true,
-            drainage: false
+            scheduled: false,
+            remote: true,
+            manual: false
         };
 
-        // Histórico de umidade (últimas 24 horas)
-        let moistureHistory = [62, 58, 55, 53, 51, 48, 52, 56, 61, 65, 68, 70, 72, 75, 71, 68, 65, 63, 60, 58, 62, 64, 66, 65];
+        let commandStatus = {
+            irrigation: false,
+            fertigation1: false,
+            fertigation2: false
+        };
+
+        // Histórico de temperatura (últimas 24 horas)
+        let moistureHistory = [22, 21, 20, 19, 18, 19, 20, 22, 24, 26, 28, 29, 30, 31, 30, 29, 28, 27, 26, 25, 24, 23, 23, 24];
         let timeLabels = ['00h', '01h', '02h', '03h', '04h', '05h', '06h', '07h', '08h', '09h', '10h', '11h', '12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h', '20h', '21h', '22h', '23h'];
 
         function updateSensorDisplay() {
             // Atualizar valores
-            document.getElementById('humidity').innerHTML = sensorData.humidity + '<span class="card-unit">%</span>';
             document.getElementById('temperature').innerHTML = sensorData.temperature.toFixed(1) + '<span class="card-unit">°C</span>';
-            document.getElementById('ph').textContent = sensorData.ph.toFixed(1);
-            document.getElementById('ec').innerHTML = sensorData.ec.toFixed(2) + '<span class="card-unit">mS/cm</span>';
-
-            // Atualizar status de umidade
-            const humidityStatus = document.getElementById('humidityStatus');
-            if (sensorData.humidity < 40) {
-                humidityStatus.className = 'card-status status-alert';
-                humidityStatus.textContent = '⚠️ Baixa';
-                showAlert('Umidade do solo abaixo do ideal. Sistema ativará irrigação.');
-            } else if (sensorData.humidity > 80) {
-                humidityStatus.className = 'card-status status-warning';
-                humidityStatus.textContent = '⚠️ Alta';
-                showAlert('Umidade do solo acima do ideal. Verificar drenagem.');
-            } else {
-                humidityStatus.className = 'card-status status-optimal';
-                humidityStatus.textContent = '✓ Ótima';
-                hideAlert();
-            }
+            document.getElementById('humidity').innerHTML = sensorData.humidity.toFixed(1) + '<span class="card-unit">%</span>';
+            document.getElementById('pressure').innerHTML = sensorData.pressure.toFixed(2) + '<span class="card-unit">hPa</span>';
 
             // Atualizar status de temperatura
             const tempStatus = document.getElementById('temperatureStatus');
-            if (sensorData.temperature < 18 || sensorData.temperature > 32) {
+            if (sensorData.temperature < 15 || sensorData.temperature > 35) {
                 tempStatus.className = 'card-status status-warning';
                 tempStatus.textContent = '⚠️ Atenção';
             } else {
@@ -724,24 +727,30 @@
                 tempStatus.textContent = '✓ Normal';
             }
 
-            // Atualizar status de pH
-            const phStatus = document.getElementById('phStatus');
-            if (sensorData.ph < 5.5 || sensorData.ph > 7.5) {
-                phStatus.className = 'card-status status-warning';
-                phStatus.textContent = '⚠️ Ajustar';
+            // Atualizar status de umidade
+            const humidityStatus = document.getElementById('humidityStatus');
+            if (sensorData.humidity < 30) {
+                humidityStatus.className = 'card-status status-alert';
+                humidityStatus.textContent = '⚠️ Baixa';
+                showAlert('Umidade do ar muito baixa. Verificar condições climáticas.');
+            } else if (sensorData.humidity > 90) {
+                humidityStatus.className = 'card-status status-warning';
+                humidityStatus.textContent = '⚠️ Alta';
+                showAlert('Umidade do ar muito alta. Risco de doenças fúngicas.');
             } else {
-                phStatus.className = 'card-status status-optimal';
-                phStatus.textContent = '✓ Balanceado';
+                humidityStatus.className = 'card-status status-optimal';
+                humidityStatus.textContent = '✓ Normal';
+                hideAlert();
             }
 
-            // Atualizar status de EC
-            const ecStatus = document.getElementById('ecStatus');
-            if (sensorData.ec < 0.8 || sensorData.ec > 2.0) {
-                ecStatus.className = 'card-status status-warning';
-                ecStatus.textContent = '⚠️ Ajustar';
+            // Atualizar status de pressão
+            const pressureStatus = document.getElementById('pressureStatus');
+            if (sensorData.pressure < 1000 || sensorData.pressure > 1030) {
+                pressureStatus.className = 'card-status status-warning';
+                pressureStatus.textContent = '⚠️ Anormal';
             } else {
-                ecStatus.className = 'card-status status-optimal';
-                ecStatus.textContent = '✓ Adequado';
+                pressureStatus.className = 'card-status status-optimal';
+                pressureStatus.textContent = '✓ Normal';
             }
 
             // Atualizar timestamp
@@ -750,59 +759,44 @@
         }
 
         function simulateSensorData() {
-            // Simular variação nos sensores
-            sensorData.humidity += (Math.random() - 0.5) * 3;
-            sensorData.humidity = Math.max(30, Math.min(90, sensorData.humidity));
-            
+            // Simular variação nos sensores (dados em tempo real)
             sensorData.temperature += (Math.random() - 0.5) * 1.5;
-            sensorData.temperature = Math.max(18, Math.min(35, sensorData.temperature));
+            sensorData.temperature = Math.max(15, Math.min(40, sensorData.temperature));
             
-            sensorData.ph += (Math.random() - 0.5) * 0.2;
-            sensorData.ph = Math.max(5.0, Math.min(8.0, sensorData.ph));
+            sensorData.humidity += (Math.random() - 0.5) * 3;
+            sensorData.humidity = Math.max(20, Math.min(95, sensorData.humidity));
             
-            sensorData.ec += (Math.random() - 0.5) * 0.1;
-            sensorData.ec = Math.max(0.5, Math.min(2.5, sensorData.ec));
-
-            // Modo automático
-            if (systemStatus.autoMode) {
-                if (sensorData.humidity < 50 && !systemStatus.waterPump) {
-                    document.getElementById('waterPump').checked = true;
-                    systemStatus.waterPump = true;
-                } else if (sensorData.humidity > 75 && systemStatus.waterPump) {
-                    document.getElementById('waterPump').checked = false;
-                    systemStatus.waterPump = false;
-                }
-
-                if (sensorData.ec < 1.0 && !systemStatus.fertilizerPump) {
-                    document.getElementById('fertilizerPump').checked = true;
-                    systemStatus.fertilizerPump = true;
-                } else if (sensorData.ec > 1.8 && systemStatus.fertilizerPump) {
-                    document.getElementById('fertilizerPump').checked = false;
-                    systemStatus.fertilizerPump = false;
-                }
-            }
+            sensorData.pressure += (Math.random() - 0.5) * 2;
+            sensorData.pressure = Math.max(990, Math.min(1040, sensorData.pressure));
 
             updateSensorDisplay();
         }
 
-        function toggleControl(type) {
-            const checkbox = document.getElementById(type === 'water' ? 'waterPump' : 
-                                                     type === 'fertilizer' ? 'fertilizerPump' : 
-                                                     type === 'auto' ? 'autoMode' : 'drainage');
-            systemStatus[type === 'water' ? 'waterPump' : 
-                         type === 'fertilizer' ? 'fertilizerPump' : 
-                         type === 'auto' ? 'autoMode' : 'drainage'] = checkbox.checked;
+        function toggleStatus(type) {
+            const checkbox = document.getElementById(type);
+            systemStatus[type] = checkbox.checked;
 
-            if (type === 'auto') {
-                if (!checkbox.checked) {
-                    // Desabilitar modo automático
-                    console.log('Modo automático desativado - Controle manual ativo');
-                } else {
-                    console.log('Modo automático ativado');
-                }
+            // Lógica de exclusão mútua: apenas um modo de acionamento pode estar ativo
+            if (checkbox.checked) {
+                Object.keys(systemStatus).forEach(key => {
+                    if (key !== type) {
+                        systemStatus[key] = false;
+                        document.getElementById(key).checked = false;
+                    }
+                });
             }
 
-            console.log(`${type} ${checkbox.checked ? 'ativado' : 'desativado'}`);
+            console.log(`Status ${type}: ${checkbox.checked ? 'ativado' : 'desativado'}`);
+        }
+
+        function toggleCommand(type) {
+            const checkbox = document.getElementById(type);
+            commandStatus[type] = checkbox.checked;
+
+            console.log(`Comando ${type}: ${checkbox.checked ? 'ativado' : 'desativado'}`);
+            
+            // Em produção, aqui você faria a chamada para a API do sistema real
+            // exemplo: sendCommandToSystem(type, checkbox.checked);
         }
 
         function showAlert(message) {
@@ -844,9 +838,9 @@
         }
 
         function updateHistoryChart() {
-            // Adicionar novo valor ao histórico
+            // Adicionar novo valor ao histórico de temperatura
             moistureHistory.shift();
-            moistureHistory.push(Math.round(sensorData.humidity));
+            moistureHistory.push(Math.round(sensorData.temperature));
             renderChart();
         }
 
