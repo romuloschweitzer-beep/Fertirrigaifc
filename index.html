@@ -6,12 +6,13 @@
     <title>FertirrigaIFC - Prof. Rômulo</title>
     <style>
         :root {
-            --color-primary: #21808d;
-            --color-primary-light: #32b8c6;
-            --color-bg: #fcfcf9;
+            --color-primary: #2d7a3e;
+            --color-primary-light: #4a9d5a;
+            --color-accent: #c84343;
+            --color-bg: #f5faf6;
             --color-surface: #fffffd;
-            --color-text: #13343b;
-            --color-text-secondary: #626c71;
+            --color-text: #1a3a1f;
+            --color-text-secondary: #4a6b4f;
         }
 
         * {
@@ -22,7 +23,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, var(--color-bg) 0%, #e8f5f7 100%);
+            background: linear-gradient(135deg, var(--color-bg) 0%, #e8f5e8 100%);
             color: var(--color-text);
             min-height: 100vh;
             display: flex;
@@ -46,28 +47,23 @@
         }
 
         .logo {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
-            border-radius: 20px;
+            width: 200px;
+            height: auto;
             margin: 0 auto 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            color: white;
-            font-weight: bold;
-            box-shadow: 0 4px 20px rgba(33, 128, 141, 0.3);
+            display: block;
+        }
+
+        .logo img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         h1 {
             font-size: 48px;
             font-weight: 600;
             margin-bottom: 16px;
-            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--color-primary);
             letter-spacing: -0.02em;
         }
 
@@ -80,13 +76,40 @@
 
         .badge {
             display: inline-block;
-            background: rgba(33, 128, 141, 0.1);
+            background: rgba(45, 122, 62, 0.1);
             color: var(--color-primary);
             padding: 8px 20px;
             border-radius: 20px;
             font-size: 14px;
             font-weight: 500;
-            border: 1px solid rgba(33, 128, 141, 0.2);
+            border: 1px solid rgba(45, 122, 62, 0.25);
+        }
+
+        .team {
+            margin-top: 40px;
+            text-align: left;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .team h2 {
+            font-size: 20px;
+            color: var(--color-primary);
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .team-member {
+            padding: 12px 0;
+            font-size: 16px;
+            color: var(--color-text);
+            border-bottom: 1px solid rgba(45, 122, 62, 0.1);
+        }
+
+        .team-member:last-child {
+            border-bottom: none;
         }
 
         .footer {
@@ -113,12 +136,24 @@
 <body>
     <div class="container">
         <div class="card">
-            <div class="logo">F</div>
+            <div class="logo">
+                <img src="Logo-Eng.-Mecatronica.jpg" alt="Logo Engenharia Mecatrônica">
+            </div>
             <h1>FertirrigaIFC</h1>
-            <p class="subtitle">Prof. Rômulo</p>
-            <div class="badge">Sistema de Monitoramento</div>
+            <p class="subtitle">Sistema de Monitoramento e Controle de Fertirrigação</p>
+            <div class="badge">Instituto Federal Catarinense</div>
+            
+            <div class="team">
+                <h2>Equipe</h2>
+                <div class="team-member">Prof. Rômulo Schweitzer</div>
+                <div class="team-member">Prof. Eduardo Bidese Puhl</div>
+                <div class="team-member">Prof. Rodrigo Curvelo</div>
+                <div class="team-member">Prof. André da Costa</div>
+                <div class="team-member">Renan dos Santos Rodrigues</div>
+            </div>
+            
             <div class="footer">
-                Instituto Federal Catarinense
+                Bacharelado em Engenharia Mecatrônica
             </div>
         </div>
     </div>
