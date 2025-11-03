@@ -3,16 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FertirrigaIFC - Prof. Rômulo</title>
+    <title>FertirrigaIFC - Dashboard de Controle</title>
     <style>
         :root {
+            --color-white: rgba(255, 255, 255, 1);
+            --color-black: rgba(0, 0, 0, 1);
+            --color-cream-50: rgba(252, 252, 249, 1);
+            --color-cream-100: rgba(255, 255, 253, 1);
+            --color-gray-200: rgba(245, 245, 245, 1);
+            --color-gray-300: rgba(167, 169, 169, 1);
+            --color-gray-400: rgba(119, 124, 124, 1);
+            --color-slate-500: rgba(98, 108, 113, 1);
+            --color-brown-600: rgba(94, 82, 64, 1);
+            --color-charcoal-700: rgba(31, 33, 33, 1);
+            --color-charcoal-800: rgba(38, 40, 40, 1);
+            --color-slate-900: rgba(19, 52, 59, 1);
+            --color-teal-300: rgba(50, 184, 198, 1);
+            --color-teal-400: rgba(45, 166, 178, 1);
+            --color-teal-500: rgba(33, 128, 141, 1);
+            --color-teal-600: rgba(29, 116, 128, 1);
+            --color-teal-700: rgba(26, 104, 115, 1);
+            --color-red-400: rgba(255, 84, 89, 1);
+            --color-red-500: rgba(192, 21, 47, 1);
+            --color-orange-400: rgba(230, 129, 97, 1);
+            --color-orange-500: rgba(168, 75, 47, 1);
+            
+            --color-brown-600-rgb: 94, 82, 64;
+            --color-teal-500-rgb: 33, 128, 141;
+            --color-slate-900-rgb: 19, 52, 59;
+            --color-slate-500-rgb: 98, 108, 113;
+            --color-red-500-rgb: 192, 21, 47;
+            --color-red-400-rgb: 255, 84, 89;
+
             --color-primary: #2d7a3e;
             --color-primary-light: #4a9d5a;
             --color-accent: #c84343;
-            --color-bg: #f5faf6;
-            --color-surface: #fffffd;
-            --color-text: #1a3a1f;
-            --color-text-secondary: #4a6b4f;
+            --color-bg: var(--color-cream-50);
+            --color-surface: var(--color-cream-100);
+            --color-text: var(--color-slate-900);
+            --color-text-secondary: var(--color-slate-500);
+            --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+            --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+            
+            --color-success: var(--color-teal-500);
+            --color-error: var(--color-red-500);
+            --color-warning: var(--color-orange-500);
+            --color-success-rgb: 33, 128, 141;
+            --color-error-rgb: 192, 21, 47;
+            --color-warning-rgb: 168, 75, 47;
+
+            --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-size-sm: 12px;
+            --font-size-base: 14px;
+            --font-size-lg: 16px;
+            --font-size-xl: 18px;
+            --font-size-2xl: 20px;
+            --font-size-3xl: 24px;
+            --font-size-4xl: 30px;
+            --font-weight-normal: 400;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 550;
+            --font-weight-bold: 600;
+            
+            --space-4: 4px;
+            --space-8: 8px;
+            --space-12: 12px;
+            --space-16: 16px;
+            --space-20: 20px;
+            --space-24: 24px;
+            --space-32: 32px;
+            
+            --radius-sm: 6px;
+            --radius-base: 8px;
+            --radius-md: 10px;
+            --radius-lg: 12px;
+            
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --color-gray-400-rgb: 119, 124, 124;
+                --color-teal-300-rgb: 50, 184, 198;
+                --color-gray-300-rgb: 167, 169, 169;
+                --color-gray-200-rgb: 245, 245, 245;
+
+                --color-bg: var(--color-charcoal-700);
+                --color-surface: var(--color-charcoal-800);
+                --color-text: var(--color-gray-200);
+                --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+                --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+                --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+                
+                --color-success: var(--color-teal-300);
+                --color-error: var(--color-red-400);
+                --color-warning: var(--color-orange-400);
+                --color-success-rgb: 50, 184, 198;
+                --color-error-rgb: 255, 84, 89;
+                --color-warning-rgb: 230, 129, 97;
+            }
         }
 
         * {
@@ -22,140 +112,753 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, var(--color-bg) 0%, #e8f5e8 100%);
+            font-family: var(--font-family-base);
+            background: var(--color-bg);
             color: var(--color-text);
-            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        .header {
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-card-border);
+            padding: var(--space-16) var(--space-24);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-16);
+        }
+
+        .header-title {
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
+            gap: var(--space-12);
+        }
+
+        .header-title h1 {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: var(--space-8);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         .container {
-            max-width: 800px;
-            width: 100%;
-            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-24);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-20);
+            margin-bottom: var(--space-24);
         }
 
         .card {
             background: var(--color-surface);
-            border-radius: 16px;
-            padding: 60px 40px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(94, 82, 64, 0.1);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-card-border);
+            box-shadow: var(--shadow-sm);
+            padding: var(--space-20);
+            transition: box-shadow 0.2s ease;
         }
 
-        .logo {
-            width: 200px;
-            height: auto;
-            margin: 0 auto 30px;
-            display: block;
+        .card:hover {
+            box-shadow: var(--shadow-md);
         }
 
-        .logo img {
-            width: 100%;
-            height: auto;
-            display: block;
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-16);
         }
 
-        h1 {
-            font-size: 48px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--color-primary);
-            letter-spacing: -0.02em;
-        }
-
-        .subtitle {
-            font-size: 20px;
+        .card-title {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
             color: var(--color-text-secondary);
-            margin-bottom: 40px;
-            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
-        .badge {
-            display: inline-block;
-            background: rgba(45, 122, 62, 0.1);
-            color: var(--color-primary);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
-            border: 1px solid rgba(45, 122, 62, 0.25);
-        }
-
-        .team {
-            margin-top: 40px;
-            text-align: left;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .team h2 {
-            font-size: 20px;
-            color: var(--color-primary);
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .team-member {
-            padding: 12px 0;
-            font-size: 16px;
+        .card-value {
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-bold);
             color: var(--color-text);
-            border-bottom: 1px solid rgba(45, 122, 62, 0.1);
+            margin-bottom: var(--space-8);
         }
 
-        .team-member:last-child {
-            border-bottom: none;
+        .card-unit {
+            font-size: var(--font-size-lg);
+            color: var(--color-text-secondary);
+            margin-left: var(--space-4);
+        }
+
+        .card-status {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-4);
+            padding: var(--space-4) var(--space-12);
+            border-radius: var(--radius-base);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .status-optimal {
+            background: rgba(var(--color-success-rgb), 0.15);
+            color: var(--color-success);
+            border: 1px solid rgba(var(--color-success-rgb), 0.25);
+        }
+
+        .status-warning {
+            background: rgba(var(--color-warning-rgb), 0.15);
+            color: var(--color-warning);
+            border: 1px solid rgba(var(--color-warning-rgb), 0.25);
+        }
+
+        .status-alert {
+            background: rgba(var(--color-error-rgb), 0.15);
+            color: var(--color-error);
+            border: 1px solid rgba(var(--color-error-rgb), 0.25);
+        }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .icon-humidity {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .icon-temperature {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+
+        .icon-ph {
+            background: rgba(147, 51, 234, 0.1);
+            color: #9333ea;
+        }
+
+        .icon-ec {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+
+        .control-panel {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-card-border);
+            box-shadow: var(--shadow-sm);
+            padding: var(--space-24);
+            margin-bottom: var(--space-24);
+        }
+
+        .control-panel h2 {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text);
+            margin-bottom: var(--space-20);
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-20);
+        }
+
+        .control-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-16);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            background: var(--color-bg);
+        }
+
+        .control-info {
+            flex: 1;
+        }
+
+        .control-label {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text);
+            margin-bottom: var(--space-4);
+        }
+
+        .control-description {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 32px;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--color-border);
+            transition: 0.3s;
+            border-radius: 32px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 24px;
+            width: 24px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--color-primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(28px);
+        }
+
+        .chart-container {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-card-border);
+            box-shadow: var(--shadow-sm);
+            padding: var(--space-24);
+            margin-bottom: var(--space-24);
+        }
+
+        .chart-container h2 {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text);
+            margin-bottom: var(--space-20);
+        }
+
+        .chart {
+            height: 300px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: var(--space-8);
+            padding: var(--space-20) 0;
+            border-bottom: 2px solid var(--color-border);
+            position: relative;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(180deg, var(--color-primary-light), var(--color-primary));
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-width: 30px;
+        }
+
+        .chart-bar:hover {
+            opacity: 0.8;
+        }
+
+        .chart-bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            white-space: nowrap;
+        }
+
+        .chart-bar-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text);
+            white-space: nowrap;
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: var(--space-24);
+            margin-top: var(--space-32);
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-8);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: var(--radius-sm);
         }
 
         .footer {
-            margin-top: 30px;
-            font-size: 14px;
+            text-align: center;
+            padding: var(--space-32);
             color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
         }
 
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 36px;
+        .footer-team {
+            margin-top: var(--space-16);
+            font-size: var(--font-size-sm);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-8) var(--space-16);
+            border-radius: var(--radius-base);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            gap: var(--space-8);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-light);
+        }
+
+        .alert-banner {
+            background: rgba(var(--color-warning-rgb), 0.1);
+            border: 1px solid rgba(var(--color-warning-rgb), 0.3);
+            border-radius: var(--radius-base);
+            padding: var(--space-16);
+            margin-bottom: var(--space-20);
+            display: none;
+        }
+
+        .alert-banner.show {
+            display: block;
+        }
+
+        .alert-content {
+            display: flex;
+            align-items: center;
+            gap: var(--space-12);
+            color: var(--color-warning);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
             }
 
-            .subtitle {
-                font-size: 18px;
+            .grid {
+                grid-template-columns: 1fr;
             }
 
-            .card {
-                padding: 40px 24px;
+            .controls-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart {
+                height: 200px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <div class="logo">
-                <img src="Logo-Eng.-Mecatronica.jpg" alt="Logo Engenharia Mecatrônica">
+    <header class="header">
+        <div class="header-content">
+            <div class="header-title">
+                <h1>🌱 FertirrigaIFC</h1>
             </div>
-            <h1>FertirrigaIFC</h1>
-            <p class="subtitle">Sistema de Monitoramento e Controle de Fertirrigação</p>
-            <div class="badge">Instituto Federal Catarinense</div>
-            
-            <div class="team">
-                <h2>Equipe</h2>
-                <div class="team-member">Prof. Rômulo Schweitzer</div>
-                <div class="team-member">Prof. Eduardo Bidese Puhl</div>
-                <div class="team-member">Prof. Rodrigo Curvelo</div>
-                <div class="team-member">Prof. André da Costa</div>
-                <div class="team-member">Renan dos Santos Rodrigues</div>
-            </div>
-            
-            <div class="footer">
-                Bacharelado em Engenharia Mecatrônica
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                <span>Sistema Online • Última atualização: <span id="lastUpdate">--:--</span></span>
             </div>
         </div>
-    </div>
+    </header>
+
+    <main class="container">
+        <div class="alert-banner" id="alertBanner">
+            <div class="alert-content">
+                <span style="font-size: 20px;">⚠️</span>
+                <div>
+                    <strong>Atenção:</strong> <span id="alertMessage"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Umidade do Solo</div>
+                        <div class="card-value" id="humidity">--<span class="card-unit">%</span></div>
+                    </div>
+                    <div class="icon icon-humidity">💧</div>
+                </div>
+                <div class="card-status status-optimal" id="humidityStatus">Optimal</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Temperatura</div>
+                        <div class="card-value" id="temperature">--<span class="card-unit">°C</span></div>
+                    </div>
+                    <div class="icon icon-temperature">🌡️</div>
+                </div>
+                <div class="card-status status-optimal" id="temperatureStatus">Normal</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">pH do Solo</div>
+                        <div class="card-value" id="ph">--</div>
+                    </div>
+                    <div class="icon icon-ph">⚗️</div>
+                </div>
+                <div class="card-status status-optimal" id="phStatus">Balanceado</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Condutividade (EC)</div>
+                        <div class="card-value" id="ec">--<span class="card-unit">mS/cm</span></div>
+                    </div>
+                    <div class="icon icon-ec">⚡</div>
+                </div>
+                <div class="card-status status-optimal" id="ecStatus">Adequado</div>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <h2>🎛️ Controle de Fertirrigação</h2>
+            <div class="controls-grid">
+                <div class="control-item">
+                    <div class="control-info">
+                        <div class="control-label">Bomba de Água</div>
+                        <div class="control-description">Irrigação principal</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="waterPump" onchange="toggleControl('water')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="control-item">
+                    <div class="control-info">
+                        <div class="control-label">Bomba de Fertilizante</div>
+                        <div class="control-description">Injeção de nutrientes</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="fertilizerPump" onchange="toggleControl('fertilizer')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="control-item">
+                    <div class="control-info">
+                        <div class="control-label">Modo Automático</div>
+                        <div class="control-description">Controle baseado em sensores</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="autoMode" checked onchange="toggleControl('auto')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="control-item">
+                    <div class="control-info">
+                        <div class="control-label">Sistema de Drenagem</div>
+                        <div class="control-description">Excesso de água</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="drainage" onchange="toggleControl('drainage')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h2>📊 Histórico de Umidade (Últimas 24h)</h2>
+            <div class="chart" id="moistureChart"></div>
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(180deg, var(--color-primary-light), var(--color-primary));"></div>
+                    <span>Umidade do Solo (%)</span>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div><strong>FertirrigaIFC</strong> - Sistema de Monitoramento e Controle de Fertirrigação</div>
+            <div class="footer-team">
+                Instituto Federal Catarinense • Bacharelado em Engenharia Mecatrônica<br>
+                Prof. Rômulo Schweitzer • Prof. Eduardo Bidese Puhl • Prof. Rodrigo Curvelo • Prof. André da Costa • Renan dos Santos Rodrigues
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // Simulação de dados dos sensores
+        let sensorData = {
+            humidity: 65,
+            temperature: 24,
+            ph: 6.5,
+            ec: 1.2
+        };
+
+        let systemStatus = {
+            waterPump: false,
+            fertilizerPump: false,
+            autoMode: true,
+            drainage: false
+        };
+
+        // Histórico de umidade (últimas 24 horas)
+        let moistureHistory = [62, 58, 55, 53, 51, 48, 52, 56, 61, 65, 68, 70, 72, 75, 71, 68, 65, 63, 60, 58, 62, 64, 66, 65];
+        let timeLabels = ['00h', '01h', '02h', '03h', '04h', '05h', '06h', '07h', '08h', '09h', '10h', '11h', '12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h', '20h', '21h', '22h', '23h'];
+
+        function updateSensorDisplay() {
+            // Atualizar valores
+            document.getElementById('humidity').innerHTML = sensorData.humidity + '<span class="card-unit">%</span>';
+            document.getElementById('temperature').innerHTML = sensorData.temperature.toFixed(1) + '<span class="card-unit">°C</span>';
+            document.getElementById('ph').textContent = sensorData.ph.toFixed(1);
+            document.getElementById('ec').innerHTML = sensorData.ec.toFixed(2) + '<span class="card-unit">mS/cm</span>';
+
+            // Atualizar status de umidade
+            const humidityStatus = document.getElementById('humidityStatus');
+            if (sensorData.humidity < 40) {
+                humidityStatus.className = 'card-status status-alert';
+                humidityStatus.textContent = '⚠️ Baixa';
+                showAlert('Umidade do solo abaixo do ideal. Sistema ativará irrigação.');
+            } else if (sensorData.humidity > 80) {
+                humidityStatus.className = 'card-status status-warning';
+                humidityStatus.textContent = '⚠️ Alta';
+                showAlert('Umidade do solo acima do ideal. Verificar drenagem.');
+            } else {
+                humidityStatus.className = 'card-status status-optimal';
+                humidityStatus.textContent = '✓ Ótima';
+                hideAlert();
+            }
+
+            // Atualizar status de temperatura
+            const tempStatus = document.getElementById('temperatureStatus');
+            if (sensorData.temperature < 18 || sensorData.temperature > 32) {
+                tempStatus.className = 'card-status status-warning';
+                tempStatus.textContent = '⚠️ Atenção';
+            } else {
+                tempStatus.className = 'card-status status-optimal';
+                tempStatus.textContent = '✓ Normal';
+            }
+
+            // Atualizar status de pH
+            const phStatus = document.getElementById('phStatus');
+            if (sensorData.ph < 5.5 || sensorData.ph > 7.5) {
+                phStatus.className = 'card-status status-warning';
+                phStatus.textContent = '⚠️ Ajustar';
+            } else {
+                phStatus.className = 'card-status status-optimal';
+                phStatus.textContent = '✓ Balanceado';
+            }
+
+            // Atualizar status de EC
+            const ecStatus = document.getElementById('ecStatus');
+            if (sensorData.ec < 0.8 || sensorData.ec > 2.0) {
+                ecStatus.className = 'card-status status-warning';
+                ecStatus.textContent = '⚠️ Ajustar';
+            } else {
+                ecStatus.className = 'card-status status-optimal';
+                ecStatus.textContent = '✓ Adequado';
+            }
+
+            // Atualizar timestamp
+            const now = new Date();
+            document.getElementById('lastUpdate').textContent = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function simulateSensorData() {
+            // Simular variação nos sensores
+            sensorData.humidity += (Math.random() - 0.5) * 3;
+            sensorData.humidity = Math.max(30, Math.min(90, sensorData.humidity));
+            
+            sensorData.temperature += (Math.random() - 0.5) * 1.5;
+            sensorData.temperature = Math.max(18, Math.min(35, sensorData.temperature));
+            
+            sensorData.ph += (Math.random() - 0.5) * 0.2;
+            sensorData.ph = Math.max(5.0, Math.min(8.0, sensorData.ph));
+            
+            sensorData.ec += (Math.random() - 0.5) * 0.1;
+            sensorData.ec = Math.max(0.5, Math.min(2.5, sensorData.ec));
+
+            // Modo automático
+            if (systemStatus.autoMode) {
+                if (sensorData.humidity < 50 && !systemStatus.waterPump) {
+                    document.getElementById('waterPump').checked = true;
+                    systemStatus.waterPump = true;
+                } else if (sensorData.humidity > 75 && systemStatus.waterPump) {
+                    document.getElementById('waterPump').checked = false;
+                    systemStatus.waterPump = false;
+                }
+
+                if (sensorData.ec < 1.0 && !systemStatus.fertilizerPump) {
+                    document.getElementById('fertilizerPump').checked = true;
+                    systemStatus.fertilizerPump = true;
+                } else if (sensorData.ec > 1.8 && systemStatus.fertilizerPump) {
+                    document.getElementById('fertilizerPump').checked = false;
+                    systemStatus.fertilizerPump = false;
+                }
+            }
+
+            updateSensorDisplay();
+        }
+
+        function toggleControl(type) {
+            const checkbox = document.getElementById(type === 'water' ? 'waterPump' : 
+                                                     type === 'fertilizer' ? 'fertilizerPump' : 
+                                                     type === 'auto' ? 'autoMode' : 'drainage');
+            systemStatus[type === 'water' ? 'waterPump' : 
+                         type === 'fertilizer' ? 'fertilizerPump' : 
+                         type === 'auto' ? 'autoMode' : 'drainage'] = checkbox.checked;
+
+            if (type === 'auto') {
+                if (!checkbox.checked) {
+                    // Desabilitar modo automático
+                    console.log('Modo automático desativado - Controle manual ativo');
+                } else {
+                    console.log('Modo automático ativado');
+                }
+            }
+
+            console.log(`${type} ${checkbox.checked ? 'ativado' : 'desativado'}`);
+        }
+
+        function showAlert(message) {
+            const banner = document.getElementById('alertBanner');
+            const messageEl = document.getElementById('alertMessage');
+            messageEl.textContent = message;
+            banner.classList.add('show');
+        }
+
+        function hideAlert() {
+            const banner = document.getElementById('alertBanner');
+            banner.classList.remove('show');
+        }
+
+        function renderChart() {
+            const chartContainer = document.getElementById('moistureChart');
+            chartContainer.innerHTML = '';
+
+            const maxValue = Math.max(...moistureHistory);
+            
+            moistureHistory.forEach((value, index) => {
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                const height = (value / maxValue) * 100;
+                bar.style.height = height + '%';
+                
+                const label = document.createElement('div');
+                label.className = 'chart-bar-label';
+                label.textContent = timeLabels[index];
+                
+                const valueLabel = document.createElement('div');
+                valueLabel.className = 'chart-bar-value';
+                valueLabel.textContent = value + '%';
+                
+                bar.appendChild(label);
+                bar.appendChild(valueLabel);
+                chartContainer.appendChild(bar);
+            });
+        }
+
+        function updateHistoryChart() {
+            // Adicionar novo valor ao histórico
+            moistureHistory.shift();
+            moistureHistory.push(Math.round(sensorData.humidity));
+            renderChart();
+        }
+
+        // Inicializar
+        updateSensorDisplay();
+        renderChart();
+
+        // Atualizar sensores a cada 3 segundos
+        setInterval(simulateSensorData, 3000);
+
+        // Atualizar gráfico a cada 1 hora (simulado: 10 segundos)
+        setInterval(updateHistoryChart, 10000);
+    </script>
 </body>
 </html>
